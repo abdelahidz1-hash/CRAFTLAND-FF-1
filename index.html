@@ -4,100 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRAFTLAND FF</title>
+    <!-- استيراد خط رياضي من Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@250;300;700&display=swap" rel="stylesheet">
-
     <style>
-        :root { --card-bg: #0a0a0a; --text-color: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; font-weight: 300; }
-        body { background: #000000; color: var(--text-color); padding-bottom: 60px; }
-        header { display: flex; justify-content: center; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; background-color: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); z-index: 100; }
-        header h1 { font-size: 1rem; letter-spacing: 1px; color: #fff; font-weight: bold; }
-        .controls { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
-        #search-input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #333; background: #111; color: #fff; margin-bottom: 10px; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .app-card { background: #0a0a0a; border: 2px solid transparent; border-radius: 15px; background-clip: padding-box, border-box; background-origin: padding-box, border-box; background-image: linear-gradient(#0a0a0a, #0a0a0a), linear-gradient(45deg, #ff0000, #ff4500, #ff8c00); padding: 20px; display: flex; flex-direction: column; align-items: center; text-align: center; transition: 0.2s; box-shadow: 0 0 10px rgba(255, 69, 0, 0.2); }
-        .app-details h3 { font-size: 1.1rem; margin-bottom: 5px; color: #ff4500; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .app-description { font-size: 0.85rem; color: #ccc; margin-bottom: 15px; }
-        .cod-container { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 5px 0 15px 0; color: #ffffff; font-weight: bold; font-size: 0.9rem; background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; }
-        .copy-btn { width: 24px; height: 24px; cursor: pointer; filter: invert(1); }
-        .update-notice { text-align: center; font-size: 1.1rem; margin-top: 30px; color: #fff; text-shadow: 0 0 10px #ff4500; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+
+        /* حاوية التطبيق الرئيسية */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        /* عنوان التطبيق العلوي */
+        .app-title {
+            font-weight: 600;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        /* شريط البحث */
+        .search-box {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: #0b0b0b;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: #ff5500;
+        }
+
+        .search-box::placeholder {
+            color: #888;
+        }
+
+        /* بطاقة العنصر (Card) مع إطار متحرك ومتغير الألوان */
+        .item-card {
+            width: 100%;
+            background-color: #080808;
+            border: 2px solid #ff5500;
+            border-radius: 18px;
+            padding: 30px 20px 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            animation: borderGlowAnimation 6s infinite;
+        }
+
+        @keyframes borderGlowAnimation {
+            0% {
+                border-color: #ff5500;
+                box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
+            }
+            25% {
+                border-color: #ffd700; /* ذهبي */
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            }
+            50% {
+                border-color: #e0e0e0; /* فضي */
+                box-shadow: 0 0 15px rgba(224, 224, 224, 0.3);
+            }
+            75% {
+                border-color: #ffffff; /* أبيض مضيء */
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                border-color: #ff5500;
+                box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
+            }
+        }
+
+        /* حاوية الصورة */
+        .item-image-container {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .item-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* اسم السكن مع تأثير تغير الألوان (ذهبي، فضي، أبيض مضيء) */
+        .item-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-align: center;
+            animation: colorAnimation 5s infinite;
+        }
+
+        @keyframes colorAnimation {
+            0% {
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+            }
+            33% {
+                color: #e0e0e0;
+                text-shadow: 0 0 8px rgba(224, 224, 224, 0.8), 0 0 20px rgba(180, 180, 180, 0.5);
+            }
+            66% {
+                color: #ffd700;
+                text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5);
+            }
+            100% {
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* وصف الخريطة */
+        .item-desc {
+            font-size: 0.95rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* زر النسخ */
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .copy-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-    <header><h1>CRAFTLAND FF</h1></header>
+    <div class="app-container">
+        <!-- العنوان العلوي -->
+        <h1 class="app-title">CRAFTLAND FF</h1>
 
-    <div class="controls">
-        <input type="text" id="search-input" placeholder="ابحث عن اسم الخريطة أو التصميم..." onkeyup="filterContent()">
-    </div>
+        <!-- شريط البحث -->
+        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم الخريطة...">
 
-    <div class="container">
-        <div class="apps-grid" id="apps-container"></div>
-        <p class="update-notice">سوف يتم تحديث خرائط كرافتلاند تلقائيا</p>
+        <!-- حاوية البطاقات التي سيتم تعبئتها ديناميكياً من items.json -->
+        <div id="cardsContainer" style="width: 100%;"></div>
     </div>
 
     <script>
         let allItems = [];
 
+        // جلب البيانات من ملف items.json وتعبئتها في التطبيق
         fetch('items.json')
-            .then(response => {
-                if (!response.ok) throw new Error('الملف غير موجود');
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 allItems = data;
-                renderItems(allItems);
+                displayItems(allItems);
             })
             .catch(error => {
-                console.log('خطأ في جلب الملف، سيتم استخدام بيانات افتراضية:', error);
-                allItems = [
-                    {
-                        name: "خريطة كرافتلاند تجريبية",
-                        description: "هذه خريطة تجريبية للتأكد من ظهور العناصر",
-                        code: "99887766"
-                    }
-                ];
-                renderItems(allItems);
+                console.error('خطأ في جلب بيانات ملف items.json:', error);
             });
 
-        function renderItems(items) {
-            const container = document.getElementById('apps-container');
+        function displayItems(items) {
+            const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
-            
-            if (!items || items.length === 0) {
-                container.innerHTML = '<p style="color: #ff4500; text-align: center; grid-column: 1/-1;">لا توجد عناصر لعرضها حالياً</p>';
-                return;
-            }
 
-            items.forEach((app, index) => {
-                container.innerHTML += `
-                <div class="app-card" id="card-${index}">
-                    <div class="app-details">
-                        <h3>${app.name || 'بدون اسم'}</h3>
-                        <p class="app-description">${app.description || ''}</p>
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+
+                card.innerHTML = `
+                    <div class="item-image-container">
+                        <img src="${item.صورة}" alt="${item.اسم}">
                     </div>
-                    ${app.code ? `
-                    <div class="cod-container">
-                        <span>COD : ${app.code}</span>
-                        <img src="https://images.icon-icons.com/935/PNG/96/copy-two-paper-sheets-interface-symbol_icon-icons.com_73283.png" class="copy-btn" onclick="copyToClipboard('${app.code}')">
-                    </div>` : ''}
-                </div>`;
+                    <h2 class="item-name">${item.اسم}</h2>
+                    <p class="item-desc">${item.وصف}</p>
+                    <button class="copy-btn" onclick="copyCode('${item.شفرة}', this)" aria-label="نسخ">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                    </button>
+                `;
+                container.appendChild(card);
             });
         }
 
-        function filterContent() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filtered = allItems.filter(item => item.name && item.name.toLowerCase().includes(searchTerm));
-            renderItems(filtered);
+        // وظيفة نسخ الشفرة عند النقر على الزر
+        function copyCode(code, btn) {
+            navigator.clipboard.writeText(code).then(() => {
+                const originalSvg = btn.innerHTML;
+                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold;">تم النسخ</span>';
+                setTimeout(() => {
+                    btn.innerHTML = originalSvg;
+                }, 1500);
+            });
         }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => alert("تم نسخ الكود: " + text));
-        }
+        // تفعيل البحث الحي عبر حقل البحث
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchText = e.target.value.toLowerCase();
+            const filtered = allItems.filter(item => 
+                item.اسم.toLowerCase().includes(searchText) || 
+                item.وصف.toLowerCase().includes(searchText)
+            );
+            displayItems(filtered);
+        });
     </script>
+
 </body>
 </html>
