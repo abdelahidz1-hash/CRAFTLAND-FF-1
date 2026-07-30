@@ -46,7 +46,6 @@
     <script>
         let allItems = [];
 
-        // محاولة جلب البيانات من ملف items.json
         fetch('items.json')
             .then(response => {
                 if (!response.ok) throw new Error('الملف غير موجود');
@@ -58,11 +57,10 @@
             })
             .catch(error => {
                 console.log('خطأ في جلب الملف، سيتم استخدام بيانات افتراضية:', error);
-                // بيانات افتراضية في حال لم يتم العثور على items.json أو كان فارغاً لتظهر لك النتيجة فوراً
                 allItems = [
                     {
                         name: "خريطة كرافتلاند تجريبية",
-                        icon: "https://i.ibb.co/MDrvqgCc/Picsart-26-05-28-22-03-09-928.png",
+                        icon: "https://i.ibb.co/RTTzmNJc/Picsart-26-05-31-10-21-22-114.png",
                         description: "هذه خريطة تجريبية للتأكد من ظهور العناصر",
                         image: "https://i.ibb.co/1G2VgrDJ/1785410431071.png",
                         code: "99887766"
@@ -109,4 +107,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+    
