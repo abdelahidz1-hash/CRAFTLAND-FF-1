@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAFTLAND FF01</title>
-    <!-- استيراد خط رياضي من Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <title>CRAFTLAND FF</title>
+    <!-- استيراد خط Cairo من Google Fonts بوزن 900 (Black) أو الأوزان المتاحة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -17,7 +17,8 @@
         body {
             background-color: #000000;
             color: #ffffff;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -36,7 +37,6 @@
 
         /* عنوان التطبيق العلوي */
         .app-title {
-            font-weight: 600;
             font-size: 1.4rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -52,7 +52,8 @@
             border: 1px solid #1a1a1a;
             border-radius: 12px;
             color: #ffffff;
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 900;
             font-size: 1rem;
             margin-bottom: 25px;
             outline: none;
@@ -65,6 +66,7 @@
 
         .search-box::placeholder {
             color: #888;
+            font-weight: 900;
         }
 
         /* بطاقة العنصر (Card) مع إطار متحرك ومتغير الألوان */
@@ -122,9 +124,8 @@
             object-fit: contain;
         }
 
-        /* اسم السكن مع تأثير تغير الألوان (ذهبي، فضي، أبيض مضيء) */
+        /* اسم العنصر مع تأثير تغير الألوان */
         .item-name {
-            font-weight: 700;
             font-size: 1.3rem;
             letter-spacing: 1.5px;
             text-transform: uppercase;
@@ -152,7 +153,7 @@
             }
         }
 
-        /* وصف الخريطة */
+        /* وصف العنصر */
         .item-desc {
             font-size: 0.95rem;
             color: #aaa;
@@ -194,27 +195,38 @@
         <!-- شريط البحث -->
         <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم الخريطة...">
 
-        <!-- حاوية البطاقات التي سيتم تعبئتها ديناميكياً من items.json -->
+        <!-- حاوية البطاقات -->
         <div id="cardsContainer" style="width: 100%;"></div>
     </div>
 
     <script>
         let allItems = [];
 
-        // جلب البيانات من ملف items.json وتعبئتها في التطبيق
+        // جلب البيانات من ملف items.json الخارجي
         fetch('items.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('فشل في جلب ملف البيانات');
+                }
+                return response.json();
+            })
             .then(data => {
                 allItems = data;
                 displayItems(allItems);
             })
             .catch(error => {
-                console.error('خطأ في جلب بيانات ملف items.json:', error);
+                console.error('خطأ:', error);
+                document.getElementById('cardsContainer').innerHTML = '<p style="text-align: center; color: #ff5500; margin-top: 20px; font-family: Cairo; font-weight: 900;">تعذر تحميل البيانات من الملف الخارجي</p>';
             });
 
         function displayItems(items) {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px; font-family: Cairo; font-weight: 900;">لا توجد نتائج مطابقة</p>';
+                return;
+            }
 
             items.forEach(item => {
                 const card = document.createElement('div');
@@ -236,18 +248,18 @@
             });
         }
 
-        // وظيفة نسخ الشفرة عند النقر على الزر
+        // وظيفة نسخ الشفرة
         function copyCode(code, btn) {
             navigator.clipboard.writeText(code).then(() => {
                 const originalSvg = btn.innerHTML;
-                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold;">تم النسخ</span>';
+                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold; font-family: Cairo;">تم النسخ</span>';
                 setTimeout(() => {
                     btn.innerHTML = originalSvg;
                 }, 1500);
             });
         }
 
-        // تفعيل البحث الحي عبر حقل البحث
+        // البحث الحي
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchText = e.target.value.toLowerCase();
             const filtered = allItems.filter(item => 
