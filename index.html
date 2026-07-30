@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAFTLAND FF </title>
+    <title>CRAFTLAND FF</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,22 +46,46 @@
     <script>
         let allItems = [];
 
+        // محاولة جلب البيانات من ملف items.json
         fetch('items.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('الملف غير موجود');
+                return response.json();
+            })
             .then(data => {
                 allItems = data;
+                renderItems(allItems);
+            })
+            .catch(error => {
+                console.log('خطأ في جلب الملف، سيتم استخدام بيانات افتراضية:', error);
+                // بيانات افتراضية في حال لم يتم العثور على items.json أو كان فارغاً لتظهر لك النتيجة فوراً
+                allItems = [
+                    {
+                        name: "خريطة كرافتلاند تجريبية",
+                        icon: "https://i.ibb.co/MDrvqgCc/Picsart-26-05-28-22-03-09-928.png",
+                        description: "هذه خريطة تجريبية للتأكد من ظهور العناصر",
+                        image: "https://i.ibb.co/1G2VgrDJ/1785410431071.png",
+                        code: "99887766"
+                    }
+                ];
                 renderItems(allItems);
             });
 
         function renderItems(items) {
             const container = document.getElementById('apps-container');
             container.innerHTML = '';
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = '<p style="color: #ff4500; text-align: center; grid-column: 1/-1;">لا توجد عناصر لعرضها حالياً</p>';
+                return;
+            }
+
             items.forEach((app, index) => {
                 container.innerHTML += `
                 <div class="app-card" id="card-${index}">
-                    <div class="app-icon"><img src="${app.icon}" alt=""></div>
+                    <div class="app-icon"><img src="${app.icon || ''}" alt=""></div>
                     <div class="app-details">
-                        <h3>${app.name}</h3>
+                        <h3>${app.name || 'بدون اسم'}</h3>
                         <p class="app-description">${app.description || ''}</p>
                     </div>
                     ${app.image ? `<img src="${app.image}" class="card-custom-img" alt="صورة العنصر">` : ''}
@@ -76,7 +100,7 @@
 
         function filterContent() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const filtered = allItems.filter(item => item.name.toLowerCase().includes(searchTerm));
+            const filtered = allItems.filter(item => item.name && item.name.toLowerCase().includes(searchTerm));
             renderItems(filtered);
         }
 
