@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAFTLAND FF01</title>
-    <!-- استيراد خط Cairo من Google Fonts بوزن 900 (Black) أو الأوزان المتاحة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@900&display=swap" rel="stylesheet">
+    <title>CRAFTLAND FF</title>
+    <!-- استيراد خط Cairo من Google Fonts بوزن 250 ووزون إضافية عند الحاجة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@250;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -18,7 +18,7 @@
             background-color: #000000;
             color: #ffffff;
             font-family: 'Cairo', sans-serif;
-            font-weight: 900;
+            font-weight: 250;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -37,6 +37,7 @@
 
         /* عنوان التطبيق العلوي */
         .app-title {
+            font-weight: 700;
             font-size: 1.4rem;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -53,7 +54,7 @@
             border-radius: 12px;
             color: #ffffff;
             font-family: 'Cairo', sans-serif;
-            font-weight: 900;
+            font-weight: 250;
             font-size: 1rem;
             margin-bottom: 25px;
             outline: none;
@@ -66,7 +67,6 @@
 
         .search-box::placeholder {
             color: #888;
-            font-weight: 900;
         }
 
         /* بطاقة العنصر (Card) مع إطار متحرك ومتغير الألوان */
@@ -126,6 +126,7 @@
 
         /* اسم العنصر مع تأثير تغير الألوان */
         .item-name {
+            font-weight: 700;
             font-size: 1.3rem;
             letter-spacing: 1.5px;
             text-transform: uppercase;
@@ -159,6 +160,7 @@
             color: #aaa;
             margin-bottom: 15px;
             text-align: center;
+            font-weight: 250;
         }
 
         /* زر النسخ */
@@ -216,7 +218,7 @@
             })
             .catch(error => {
                 console.error('خطأ:', error);
-                document.getElementById('cardsContainer').innerHTML = '<p style="text-align: center; color: #ff5500; margin-top: 20px; font-family: Cairo; font-weight: 900;">تعذر تحميل البيانات من الملف الخارجي</p>';
+                document.getElementById('cardsContainer').innerHTML = '<p style="text-align: center; color: #ff5500; margin-top: 20px; font-weight: 250;">تعذر تحميل البيانات من الملف الخارجي</p>';
             });
 
         function displayItems(items) {
@@ -224,7 +226,7 @@
             container.innerHTML = '';
 
             if (items.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px; font-family: Cairo; font-weight: 900;">لا توجد نتائج مطابقة</p>';
+                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px; font-weight: 250;">لا توجد نتائج مطابقة</p>';
                 return;
             }
 
@@ -252,7 +254,7 @@
         function copyCode(code, btn) {
             navigator.clipboard.writeText(code).then(() => {
                 const originalSvg = btn.innerHTML;
-                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold; font-family: Cairo;">تم النسخ</span>';
+                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold;">تم النسخ</span>';
                 setTimeout(() => {
                     btn.innerHTML = originalSvg;
                 }, 1500);
