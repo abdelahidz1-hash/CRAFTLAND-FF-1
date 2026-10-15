@@ -1,276 +1,924 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAFTLAND FF</title>
-    <!-- استيراد خط Cairo من Google Fonts بوزن 250 ووزون إضافية عند الحاجة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@250;700&display=swap" rel="stylesheet">
-    
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <title>Crafts-x Items</title>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" content="Starexx">  
+    <meta name="og:title" content="Final strike Items">  
+    <meta property="og:image" content="assets/og.png">  
+    <meta name="og:description" content="Search Free Fire game items by name or description to retrieve item ID, name & details.">  
+    <meta name="google-site-verification" content="J20YkdBYbFS0_YZdIu9Z-sKGKzYZfqOFFkQ0numjLq0">  
+    <meta name="description" content="Free Fire is a multiplayer battle royale mobile game, developed and published by Garena for Android and iOS. Battle in Style and be the last survivor!">  
+    <meta name="keywords" content="survival, last survivor, battle royale, free mobile game, garena game, craftland, ugc, starexz.m, ff craftland, ankit-mehta, starexx7, Starexx, starexx, craftland tutorial, free fire craftland, ff-item, Free Fire Info, FFInfo, FFItems, ffitems, ItemsFF, Starexx FFItems, FF-Items">  
     <style>
+        @import url("https://cdn.jsdelivr.net/gh/starexxx/GFF@main/font.css");
+        
+        :root {
+            --background-color: #0a0a0a;
+            --text-color: #ffffff;
+            --card-background: transparent;
+            --card-hover-background: rgba(40, 40, 40, 0.8);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --card-hover-border: rgba(255, 255, 255, 0.3);
+            --modal-background: rgba(0, 0, 0, 0.95);
+            --modal-content-background: rgba(30, 30, 30, 0.95);
+            --button-active-background: #ffffff;
+            --button-active-text: #000000;
+            --spinner-color: #121212;
+            --spinner-top-color: white;
+            --font-family: 'GFF Starexx', sans-serif;
+            --font-size-base: 14px;
+            --font-size-large: 24px;
+            --spacing-small: 5px;
+            --spacing-medium: 10px;
+            --spacing-large: 20px;
+            --border-radius-small: 10px;
+            --border-radius-medium: 25px;
+            --border-radius-large: 50px;
+            --transition-speed: 0.3s;
+            --header-color: rgba(10, 10, 10, 0.9);
+            --glow-color: rgba(255, 255, 255, 0.1);
+        }
+
         * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: var(--font-family);
+        }
+        
+        ::selection {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 250;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
-            padding: 20px 10px;
+            touch-action: pan-y;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* حاوية التطبيق الرئيسية */
-        .app-container {
+       body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    background-image: url('https://i.ibb.co/Q3Ydh91p/Picsart-26-09-18-23-38-34-594.jpg');
+    background-size: contain; /* ya cover */
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .header {
+            width: 100%;
+            padding: 10px var(--spacing-medium);
+            user-select: none;
+            background: var(--header-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            transition: all var(--transition-speed) ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header.search-mode {
+            height: auto;
             flex-direction: column;
+            align-items: stretch;
+            padding: 10px;
+        }
+
+        .header-title-container {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 480px;
+            height: 40px;
         }
 
-        /* عنوان التطبيق العلوي */
-        .app-title {
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-            color: #ffffff;
+        .header-title {
+          width: 100%;
+    font-weight: 600;
+    font-size: 1.2rem;
+    transition: all var(--transition-speed) ease;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #ffffff, #cccccc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center; /* text ko centre karega */
+    display: block;  /* ensure ki text-align kaam kare */
+    padding-left: 0px;    /* left padding hataye */
+}
+        .header.search-mode .header-title {
+            display: none;
         }
 
-        /* شريط البحث */
-        .search-box {
-            width: 100%;
-            padding: 14px 18px;
-            background-color: #0b0b0b;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            color: #ffffff;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 250;
+        .header-menu {
             font-size: 1rem;
-            margin-bottom: 25px;
-            outline: none;
-            transition: border-color 0.3s;
+            padding-right: 15px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .search-box:focus {
-            border-color: #ff5500;
+        .header.search-mode .header-menu {
+            transform: rotate(180deg);
         }
 
-        .search-box::placeholder {
-            color: #888;
-        }
-
-        /* بطاقة العنصر (Card) مع إطار متحرك ومتغير الألوان */
-        .item-card {
+        .search-container {
+            position: relative;
             width: 100%;
-            background-color: #080808;
-            border: 2px solid #ff5500;
-            border-radius: 18px;
-            padding: 30px 20px 25px 20px;
+            display: none;
+        }
+
+        .header.search-mode .search-container {
+            display: block;
+        }
+
+        .search-textarea {
+            width: 100%;
+            padding: 10px 10px 10px 35px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--card-border);
+            background-color: rgba(20, 20, 20, 0.8);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 14px;
+            height: 40px;
+            resize: none;
+            text-align: left;
+            transition: all var(--transition-speed) ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .search-textarea::placeholder {
+            text-align: left;
+            font-family: var(--font-family);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 20px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filters-row {
+            display: none;
+            width: 100%;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .header.search-mode .filters-row {
+            display: flex;
+        }
+
+        .filter-select {
+            padding: 8px;
+            border-radius: var(--border-radius-small);
+            border: 1px solid var(--card-border);
+            background-color: rgba(20, 20, 20, 0.8);
+            color: var(--text-color);
+            font-size: 12px;
+            cursor: pointer;
+            outline: none;
+            user-select: none;
+            width: 100%;
+            font-family: var(--font-family);
+            flex: 1;
+            transition: all var(--transition-speed) ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-select:focus {
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        .container {
+            padding: var(--spacing-large);
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: var(--spacing-medium);
+            width: 100%;
+        }
+
+        .icon-card {
+            background: var(--card-background);
+            padding: var(--spacing-medium);
+            border-radius: var(--border-radius-small);
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            transition: all var(--transition-speed) ease;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 25px;
+            justify-content: center;
+            height: 80px;
             position: relative;
             overflow: hidden;
-            animation: borderGlowAnimation 6s infinite;
+            backdrop-filter: blur(5px);
         }
 
-        @keyframes borderGlowAnimation {
-            0% {
-                border-color: #ff5500;
-                box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
-            }
-            25% {
-                border-color: #ffd700; /* ذهبي */
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-            }
-            50% {
-                border-color: #e0e0e0; /* فضي */
-                box-shadow: 0 0 15px rgba(224, 224, 224, 0.3);
-            }
-            75% {
-                border-color: #ffffff; /* أبيض مضيء */
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            }
-            100% {
-                border-color: #ff5500;
-                box-shadow: 0 0 15px rgba(255, 85, 0, 0.3);
-            }
+        .icon-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,255,900,0) 70%);
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
         }
 
-        /* حاوية الصورة */
-        .item-image-container {
-            width: 100%;
-            height: 260px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
+        .icon-card:hover {
+            border: 1px solid var(--card-hover-border);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: var(--card-hover-background);
         }
 
-        .item-image-container img {
-            max-width: 100%;
-            max-height: 100%;
+        .icon-card:hover::before {
+            opacity: 1;
+        }
+
+        .icon-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius-small);
+            animation: iconLoad 0.5s ease-in-out;
+            pointer-events: none;
             object-fit: contain;
+            transition: transform var(--transition-speed) ease;
         }
 
-        /* اسم العنصر مع تأثير تغير الألوان */
-        .item-name {
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            text-align: center;
-            animation: colorAnimation 5s infinite;
+        .icon-card:hover img {
+            transform: scale(1.1);
         }
 
-        @keyframes colorAnimation {
-            0% {
-                color: #ffffff;
-                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
-            }
-            33% {
-                color: #e0e0e0;
-                text-shadow: 0 0 8px rgba(224, 224, 224, 0.8), 0 0 20px rgba(180, 180, 180, 0.5);
-            }
-            66% {
-                color: #ffd700;
-                text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.5);
-            }
-            100% {
-                color: #ffffff;
-                text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
-            }
+        @keyframes iconLoad {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        /* وصف العنصر */
-        .item-desc {
-            font-size: 0.95rem;
-            color: #aaa;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: 250;
-        }
-
-        /* زر النسخ */
-        .copy-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
+        .pagination-container {
+            margin-top: var(--spacing-large);
             display: flex;
             justify-content: center;
+            width: 100%;
+        }
+
+        .pagination {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid var(--card-border);
+            padding: var(--spacing-small);
+            border-radius: var(--border-radius-large);
+            max-width: 100%;
+            user-select: none;
+            scrollbar-width: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .pagination::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pagination button {
+            padding: var(--spacing-small) 12px;
+            margin: 2px;
+            border: none;
+            background: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+            border-radius: var(--border-radius-large);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-speed) ease;
+            font-family: var(--font-family);
+            min-width: 36px;
+        }
+
+        .pagination button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .pagination button.active {
+            background: var(--button-active-background);
+            color: var(--button-active-text);
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-background);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 1000;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .modal.show {
+            display: flex;
             align-items: center;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
+            justify-content: center;
         }
 
-        .copy-btn:active {
-            background-color: rgba(255, 255, 255, 0.1);
+        .modal-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
         }
 
-        .copy-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: #ffffff;
+        .modal.show .modal-bg {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: var(--modal-content-background);
+            padding: var(--spacing-large);
+            border-radius: var(--border-radius-small);
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1001;
+            width: 300px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal.show .modal-content {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .modal-img-container {
+            margin-top: 18vh;
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            display: none;
+            z-index: 1002;
+            transition: all var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1);
+            transform-origin: center;
+        }
+
+        .modal-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: var(--border-radius-small);
+            transition: all var(--transition-speed) cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal img {
+            display: none;
+            width: 100px;
+            height: 100px;
+            margin-bottom: var(--spacing-medium);
+            border-radius: var(--border-radius-small);
+            user-select: none;
+            display: block;
+            margin: 0 auto var(--spacing-medium);
+            object-fit: contain;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close {
+            margin-top: var(--spacing-medium);
+            padding: 8px 16px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: var(--border-radius-small);
+            transition: all var(--transition-speed) ease;
+            width: 100%;
+            user-select: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: var(--spacing-large);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: var(--border-radius-small);
+            backdrop-filter: blur(5px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color var(--transition-speed) ease;
+        }
+
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                height: 60px;
+            }
+            
+            .header.search-mode {
+                height: auto;
+                padding: 10px;
+            }
+            
+            .grid-container {
+                grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            }
+            
+            .icon-card img {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+            }
+            
+            .header-title {
+                font-size: 1rem;
+            }
+            
+            .header-menu {
+                font-size: 1.2rem;
+            }
+            
+            .filters-row {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .filter-select {
+                min-width: calc(33.33% - 7px);
+                font-size: 11px;
+                padding: 6px;
+            }
         }
     </style>
-</head>
-<body>
-
-    <div class="app-container">
-        <!-- العنوان العلوي -->
-        <h1 class="app-title">CRAFTLAND FF</h1>
-
-        <!-- شريط البحث -->
-        <input type="text" id="searchInput" class="search-box" placeholder="ابحث عن اسم الخريطة...">
-
-        <!-- حاوية البطاقات -->
-        <div id="cardsContainer" style="width: 100%;"></div>
+</head>  
+<body>  
+    <div class="loading-dot" id="loadingDot"></div>  
+    
+    <div class="header" id="header">
+        <div class="header-title-container">
+            <div class="header-title">Final strike ITEMS</div>
+            <div class="header-menu" id="menuButton"><i class="fas fa-search"></i></div>
+        </div>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <textarea class="search-textarea" id="search" placeholder="Search by item details" oninput="filterIcons()"></textarea>  
+        </div>
+        
+        <div class="filters-row">
+            <select class="filter-select" id="filter-Rare">
+                <option value="">All Rarities</option>
+            </select>
+            <select class="filter-select" id="filter-itemType">
+                <option value="">All Types</option>
+            </select>
+            <select class="filter-select" id="filter-collectionType">
+                <option value="">All Collections</option>
+            </select>
+        </div>
     </div>
+    
+    <div class="container" id="container" style="display: none;">  
+        <div class="grid-container" id="iconGrid"></div>  
+        <div class="pagination-container">  
+            <div class="pagination" id="pagination"></div>  
+        </div>  
+    </div>  
 
+    <div class="modal" id="modal">  
+        <div class="modal-bg"></div>
+        <div class="modal-img-container" id="modalImgContainer">
+            <img id="modalTempImage" alt="Item Image">
+        </div>
+        <div class="modal-content">  
+            <img id="modalImage" alt="Item Image">  
+            <p><b id="modalDescription"></b><br><span id="modalDescription2"></span></p>
+            <div class="divider"></div>
+            <p><b>Item ID: </b><span id="modalItemId"></span><br><b>Icon Name: </b><span id="modalIconName"></span></p>
+            <div class="divider"></div>
+            <p><b>Type: </b><span id="modalType"></span><br>
+            <b>Collection: </b><span id="modalCollectionType"></span><br>
+            <b>Rarity: </b><span id="modalRare"></span></p>
+            <button class="modal-close" onclick="closeModal()">Tap to close</button>  
+        </div>  
+    </div>      
     <script>
-        let allItems = [];
+        let iconsData = [];
+        let filteredData = [];
+        let currentPage = 0;
+        const itemsPerPage = 100;
+        let uniqueFilters = {
+            itemType: new Set(),
+            collectionType: new Set(),
+            Rare: new Set()
+        };
+        let lastClickedCard = null;
+        let modalOpen = false;
+        let searchOpen = false;
 
-        // جلب البيانات من ملف items.json الخارجي
-        fetch('items.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('فشل في جلب ملف البيانات');
-                }
-                return response.json();
-            })
-            .then(data => {
-                allItems = data;
-                displayItems(allItems);
-            })
-            .catch(error => {
-                console.error('خطأ:', error);
-                document.getElementById('cardsContainer').innerHTML = '<p style="text-align: center; color: #ff5500; margin-top: 20px; font-weight: 250;">تعذر تحميل البيانات من الملف الخارجي</p>';
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.getElementById("loadingDot").style.display = "none";
+                document.getElementById("container").style.display = "block";
+            }, 1000);
+
+            fetchIcons();
+            
+            document.getElementById("menuButton").addEventListener("click", function() {
+                toggleSearchBox();
             });
 
-        function displayItems(items) {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('header');
+                if (window.scrollY > 10) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
 
-            if (items.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 20px; font-weight: 250;">لا توجد نتائج مطابقة</p>';
+            document.addEventListener('touchmove', function(e) {
+                if (modalOpen) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        });
+
+        function toggleSearchBox() {
+            const header = document.getElementById("header");
+            const menuButton = document.getElementById("menuButton");
+            
+            searchOpen = !searchOpen;
+            
+            if (searchOpen) {
+                header.classList.add("search-mode");
+                menuButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+                document.getElementById("search").focus();
+            } else {
+                header.classList.remove("search-mode");
+                menuButton.innerHTML = '<i class="fas fa-search"></i>';
+            }
+        }
+
+        async function fetchIcons() {
+            try {
+                const response = await fetch("https://raw.githubusercontent.com/starexxx/FFItems/74c2af66d691776c2452bd72ca0388ba52d7c5fb/assets/itemData.json");
+                const data = await response.json();
+
+                iconsData = data.map(item => ({
+                    itemId: item["itemID"],
+                    name: item["description"],
+                    iconName: item["icon"],
+                    description: item["description"],
+                    description2: item["description2"],
+                    itemType: item["itemType"] ? item["itemType"].replace(/_/g, ' ') : '',
+                    collectionType: item["collectionType"] ? item["collectionType"].replace(/_/g, ' ') : '',
+                    Rare: item["Rare"],
+                    imageUrl: `https://raw.githubusercontent.com/I-SHOW-AKIRU200/AKIRU-ICONS/main/ICONS/${item["itemID"]}.png`
+                }));
+
+                iconsData.forEach(item => {
+                    if (item.itemType) uniqueFilters.itemType.add(item.itemType);
+                    if (item.collectionType) uniqueFilters.collectionType.add(item.collectionType);
+                    if (item.Rare) uniqueFilters.Rare.add(item.Rare);
+                });
+
+                populateDropdown("filter-Rare", uniqueFilters.Rare);
+                populateDropdown("filter-itemType", uniqueFilters.itemType);
+                populateDropdown("filter-collectionType", uniqueFilters.collectionType);
+
+                filteredData = [...iconsData];
+                renderIcons();
+                
+                const searchParams = new URLSearchParams(window.location.search);
+                const query = searchParams.get('q');
+                if (query) {
+                    document.getElementById('search').value = query;
+                    filterIcons();
+                    toggleSearchBox();
+                }
+            } catch (error) {
+                console.error("Failed to retrieve Icons:", error);
+                showError();
+            }
+        }
+
+        function showError() {
+            const grid = document.getElementById("iconGrid");
+            grid.innerHTML = `<div class="no-results">Failed to load items. Please try again later.</div>`;
+        }
+
+        function populateDropdown(id, values) {
+            const select = document.getElementById(id);
+            Array.from(values).sort().forEach(value => {
+                if (!value) return;
+                const option = document.createElement("option");
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+            });
+        }
+
+        function applyFilters() {
+            const itemTypeFilter = document.getElementById("filter-itemType").value;
+            const collectionTypeFilter = document.getElementById("filter-collectionType").value;
+            const rareFilter = document.getElementById("filter-Rare").value;
+            const searchQuery = document.getElementById("search").value.toLowerCase();
+            
+            filteredData = iconsData.filter(item => {
+                const matchesSearch = searchQuery === '' || 
+                    item.name.toLowerCase().includes(searchQuery) ||
+                    item.itemId.toString().includes(searchQuery) ||
+                    item.iconName.toLowerCase().includes(searchQuery);
+                
+                const matchesType = !itemTypeFilter || item.itemType === itemTypeFilter;
+                const matchesCollection = !collectionTypeFilter || item.collectionType === collectionTypeFilter;
+                const matchesRare = !rareFilter || item.Rare === rareFilter;
+                
+                return matchesSearch && matchesType && matchesCollection && matchesRare;
+            });
+            
+            currentPage = 0;
+            renderIcons();
+            
+            if (searchQuery) {
+                const newUrl = window.location.pathname + '?q=' + encodeURIComponent(searchQuery);
+                window.history.pushState({ path: newUrl }, '', newUrl);
+            } else {
+                window.history.pushState({ path: window.location.pathname }, '', window.location.pathname);
+            }
+        }
+
+        function renderIcons() {
+            const start = currentPage * itemsPerPage;
+            const end = start + itemsPerPage;
+            const visibleIcons = filteredData.slice(start, end);
+            
+            const grid = document.getElementById("iconGrid");
+            grid.innerHTML = "";
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = `<div class="no-results">No items found matching your criteria</div>`;
+                document.getElementById("pagination").innerHTML = "";
                 return;
             }
 
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-
-                card.innerHTML = `
-                    <div class="item-image-container">
-                        <img src="${item.صورة}" alt="${item.اسم}">
-                    </div>
-                    <h2 class="item-name">${item.اسم}</h2>
-                    <p class="item-desc">${item.وصف}</p>
-                    <button class="copy-btn" onclick="copyCode('${item.شفرة}', this)" aria-label="نسخ">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                    </button>
-                `;
-                container.appendChild(card);
+            visibleIcons.forEach((icon, index) => {
+                const card = document.createElement("div");
+                card.className = "icon-card";
+                card.dataset.index = start + index;
+                card.onclick = (e) => {
+                    lastClickedCard = card;
+                    openModal(
+                        icon.name,
+                        icon.itemId,
+                        icon.iconName,
+                        icon.imageUrl,
+                        icon.description,
+                        icon.description2,
+                        icon.itemType,
+                        icon.collectionType,
+                        icon.Rare
+                    );
+                };
+                
+                const img = document.createElement("img");
+                img.src = icon.imageUrl;
+                img.alt = icon.name;
+                img.onerror = () => {
+                    img.src = 'https://raw.githubusercontent.com/starexxx/FFItems/19d339b0ec202ed4362128b91d51ec63b6ebfa73/assets/error-404.png';
+                };
+                
+                card.appendChild(img);
+                grid.appendChild(card);
             });
+
+            updatePagination();
         }
 
-        // وظيفة نسخ الشفرة
-        function copyCode(code, btn) {
-            navigator.clipboard.writeText(code).then(() => {
-                const originalSvg = btn.innerHTML;
-                btn.innerHTML = '<span style="color:#ffd700; font-size:0.8rem; font-weight:bold;">تم النسخ</span>';
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const paginationDiv = document.getElementById("pagination");
+            paginationDiv.innerHTML = "";
+
+            for (let i = 0; i < totalPages; i++) {
+                const button = document.createElement("button");
+                button.textContent = i + 1;
+                button.classList.toggle("active", i === currentPage);
+                button.onclick = () => changePage(i);
+                paginationDiv.appendChild(button);
+            }
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function filterIcons() {
+            applyFilters();
+        }
+
+        function openModal(name, itemId, iconName, imageUrl, description, description2, itemType, collectionType, rare) {
+            const modal = document.getElementById("modal");
+            const modalImgContainer = document.getElementById("modalImgContainer");
+            const modalTempImage = document.getElementById("modalTempImage");
+            const modalContent = document.querySelector('.modal-content');
+            
+            document.getElementById("modalDescription").textContent = description || "No description available";
+            document.getElementById("modalDescription2").textContent = description2 || "No additional description";
+            document.getElementById("modalItemId").textContent = itemId || "Unknown";
+            document.getElementById("modalIconName").textContent = iconName || "Unknown";
+            document.getElementById("modalType").textContent = itemType || "Unknown";
+            document.getElementById("modalCollectionType").textContent = collectionType || "Unknown";
+            document.getElementById("modalRare").textContent = rare || "Unknown";
+            
+            const modalImg = document.getElementById("modalImage");
+            modalImg.src = imageUrl;
+            modalImg.onerror = () => {
+                modalImg.src = 'https://raw.githubusercontent.com/starexxx/FFItems/19d339b0ec202ed4362128b91d51ec63b6ebfa73/assets/error-404.png';
+            };
+            
+            modalTempImage.src = imageUrl;
+            modalTempImage.onerror = () => {
+                modalTempImage.src = 'https://raw.githubusercontent.com/starexxx/FFItems/19d339b0ec202ed4362128b91d51ec63b6ebfa73/assets/error-404.png';
+            };
+            
+            const cardRect = lastClickedCard.getBoundingClientRect();
+            const cardImg = lastClickedCard.querySelector('img');
+            
+            modalImgContainer.style.width = `${cardImg.width}px`;
+            modalImgContainer.style.height = `${cardImg.height}px`;
+            modalImgContainer.style.left = `${cardRect.left + (cardRect.width - cardImg.width)/2}px`;
+            modalImgContainer.style.top = `${cardRect.top + (cardRect.height - cardImg.height)/2}px`;
+            modalImgContainer.style.transform = 'none';
+            
+            modal.classList.add("show");
+            document.body.style.overflow = "hidden";
+            modalOpen = true;
+            
+            setTimeout(() => {
+                const modalRect = modal.getBoundingClientRect();
+                const targetLeft = modalRect.left + (modalRect.width - 100)/2;
+                const targetTop = modalRect.top + 50;
+                
+                modalImgContainer.style.width = '100px';
+                modalImgContainer.style.height = '100px';
+                modalImgContainer.style.left = `${targetLeft}px`;
+                modalImgContainer.style.top = `${targetTop}px`;
+                
                 setTimeout(() => {
-                    btn.innerHTML = originalSvg;
-                }, 1500);
-            });
+                    modalContent.style.opacity = '1';
+                }, 150);
+            }, 10);
         }
 
-        // البحث الحي
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const filtered = allItems.filter(item => 
-                item.اسم.toLowerCase().includes(searchText) || 
-                item.وصف.toLowerCase().includes(searchText)
-            );
-            displayItems(filtered);
-        });
-    </script>
+        function closeModal() {
+            const modal = document.getElementById("modal");
+            const modalImgContainer = document.getElementById("modalImgContainer");
+            const modalContent = document.querySelector('.modal-content');
+            
+            if (!lastClickedCard) {
+                modal.classList.remove("show");
+                document.body.style.overflow = "auto";
+                modalOpen = false;
+                return;
+            }
+            
+            modalContent.style.opacity = '0';
+            
+            const cardRect = lastClickedCard.getBoundingClientRect();
+            const cardImg = lastClickedCard.querySelector('img');
+            
+            modalImgContainer.style.width = `${cardImg.width}px`;
+            modalImgContainer.style.height = `${cardImg.height}px`;
+            modalImgContainer.style.left = `${cardRect.left + (cardRect.width - cardImg.width)/2}px`;
+            modalImgContainer.style.top = `${cardRect.top + (cardRect.height - cardImg.height)/2}px`;
+            modalImgContainer.style.transform = 'none';
+            
+            setTimeout(() => {
+                modal.classList.remove("show");
+                document.body.style.overflow = "auto";
+                modalOpen = false;
+            }, 300);
+        }
 
-</body>
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal && modalOpen) {
+                closeModal();
+            }
+        });
+
+        document.getElementById("filter-Rare").addEventListener("change", applyFilters);
+        document.getElementById("filter-itemType").addEventListener("change", applyFilters);
+        document.getElementById("filter-collectionType").addEventListener("change", applyFilters);
+    </script>
+</body>  
 </html>
